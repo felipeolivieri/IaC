@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
 
 	config.vm.define "wordpress" do |m|
 		m.vm.box = "ubuntu/trusty64"
-		ansible.vm.provider "virtualbox" do |v|
+		m.vm.provider "virtualbox" do |v|
 			v.name = "Ubuntu-wordpress"
 	  end
 		m.vm.network "private_network", ip: "172.17.177.40"
