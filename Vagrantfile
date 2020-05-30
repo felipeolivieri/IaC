@@ -24,15 +24,11 @@ Vagrant.configure("2") do |config|
 			inline: "cp /vagrant/configs/id_rsa /home/vagrant/.ssh && chmod 600 /home/vagrant/.ssh/id_rsa && chown vagrant:vagrant /home/vagrant/.ssh/id_rsa"
 		ansible.vm.provision "shell", 
 			inline: $ansible
-		ansible.vm.provision "shell",
-			inline: "ansible-playbook -i /vagrant/configs/hosts /vagrant/configs/playbook.yml"
 	end
 
 	config.vm.define "worpress" do |m|
 		m.vm.box = "ubuntu/trusty64"
 		m.vm.network "private_network", ip: "172.17.177.40"
-		m.vm.network "public_network", ip: "192.168.68.05", bridge: "en0: Wi-Fi (AirPort)"
-		m.vm.provision "shell",
-			inline: "apt-get update && apt-get install -y docker.io"
+		m.vm.network "public_network", ip: "192.168.68.95", bridge: "en0: Wi-Fi (AirPort)"
 	end
 end
