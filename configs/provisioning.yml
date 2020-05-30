@@ -1,5 +1,12 @@
 ---
   - hosts: database
+    handlers:
+      - name: restart mysql
+        service:
+          name: mysql
+          state: restarted
+        become: yes
+
     tasks:
     - name: 'Instala pacotes de dependencia do SO'
       apt:
@@ -19,6 +26,19 @@
         password: '12345'
         priv: 'wordpress_db.*:ALL,GRANT'
         state: present
+        host:  "{{ item }}"
+      with_items:
+        - 'localhost'
+        - '127.0.0.1'
+        - '192.168.68.95'
+    - name: 'configura o mysql para aceitar conexões remotas'  
+      copy:
+        src: '/vagrant/configs/my.cnf'
+        dest: '/etc/mysql/my.cnf'
+      become: yes
+      notify:
+        - restart mysql
+
 
   - hosts: wordpress
     handlers:
@@ -36,23 +56,9 @@
                   'php5-gd', 
                   'libssh2-php', 
                   'php5-mcrypt', 
-                  'mysql-server-5.6', 
-                  'python-mysqldb', 
                   'php5-mysql']
           state: latest
         become: yes
-      - name: 'Cria o banco Mysql'
-        mysql_db:
-          name: wordpress_db
-          login_user: root
-          state: present
-      - name: 'Cria usuario do MySQL'
-        mysql_user:
-          login_user: root
-          name: wordpress_user
-          password: '12345'
-          priv: 'wordpress_db.*:ALL,GRANT'
-          state: present
       - name: 'Download wordpress'
         get_url:
           url: 'https://wordpress.org/wordpress-5.1.tar.gz'
@@ -78,6 +84,7 @@
           - { regex: 'database_name_here', value: 'wordpress_db'}
           - { regex: 'username_here', value: 'wordpress_user'}
           - { regex: 'password_here', value: '12345'}
+          - { regex: 'localhost', value: '192.168.68.96'}
         become: yes
       - name: 'Copiando arquivo de configuracao do apache2 - ja configurado para wordpress'
         copy:
