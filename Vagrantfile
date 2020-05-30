@@ -26,9 +26,14 @@ Vagrant.configure("2") do |config|
 			inline: $ansible
 	end
 
-	config.vm.define "worpress" do |m|
+	config.vm.define "wordpress" do |m|
 		m.vm.box = "ubuntu/trusty64"
+		ansible.vm.provider "virtualbox" do |v|
+			v.name = "Ubuntu-wordpress"
+	  end
 		m.vm.network "private_network", ip: "172.17.177.40"
 		m.vm.network "public_network", ip: "192.168.68.95", bridge: "en0: Wi-Fi (AirPort)"
+		m.vm.provision "shell", 
+			inline: "cat /vagrant/configs/id_rsa.pub >> .ssh/authorized_keys"
 	end
 end
