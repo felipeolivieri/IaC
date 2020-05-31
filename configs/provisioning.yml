@@ -86,10 +86,10 @@
           - { regex: 'password_here', value: "{{ wp_user_password }}"}
           - { regex: 'localhost', value: "{{ wp_db_ip }}"}
         become: yes
-      - name: 'Copiando arquivo de configuracao do apache2 - ja configurado para wordpress'
-        copy:
-          src: '/vagrant/configs/000-default.conf'
-          dest: '/etc/apache2/sites-available/'
-        become: 'yes'
+      - name: 'configura apache para servir wordpress'
+        template: 
+          src: 'templates/000-default.conf.j2'
+          dest: '/etc/apache2/sites-available/000-default.conf'
+        become: yes
         notify:
           - restart apache
