@@ -72,7 +72,7 @@
       - name: 'Copiando arquivo de configuracao do wordpress'
         copy:
           src: "{{ wp_installation_dir }}/wp-config-sample.php"
-          dest: "wp_installation_dir/wp-config.php"
+          dest: "{{ wp_installation_dir }}/wp-config.php"
           remote_src: 'yes'
         become: 'yes'
       - name: 'Configurando o wp-config com as entradas do banco de dados'
