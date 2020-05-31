@@ -9,3 +9,18 @@ No código do ansible, estou usando as melhores práticas de separar os servidor
 
 Mas todo o processo começou de forma simples e evoluindo conforme meus estudos. Isso pode ser osbservado variamente ao longo dos commits.
 
+Sobre o ambiente:
+Este ambiente é composto por 3 máquinas virtuais:
+1. ansible
+2. mysql
+3. wordpress
+
+Disponibilizei o ansible com uma versão de ubuntu para realizar os testes. achei melhor que instalar no meu macbook, até porque ajuda quem usa windows a testar, já que não tem ansible para windows.
+
+Todas as VMs são disponibilizadas via Vagrantfile.
+Leia o arquivo e altere para atender seu ambiente, configurações de IPs e achave de criptografia podem dar problemas no seu ambiente.
+
+Requisitos:
+Este ambiente foi feito em cima de VirtualBox, portanto é um requisito. Mas o código é reaproveitavel se desejar alterar para outro "provider", como VMware Fusion/workstation, hyper-V etc. Para isso altere o Vagrantfile.
+
+<este documento ainda está sendo produzido>
