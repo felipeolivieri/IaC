@@ -1,0 +1,31 @@
+---
+- name: 'Instala pacotes de dependencia do SO'
+  apt:
+    name: ['mysql-server-5.6', 'python-mysqldb',]
+    state: latest
+  become: yes
+- name: 'Cria o banco Mysql'
+  mysql_db:
+    name: "{{ wp_db_name }}"
+    login_user: root
+    state: present
+- name: 'Cria usuario do MySQL'
+  mysql_user:
+    login_user: root
+    name: "{{ wp_username }}"
+    password: "{{ wp_user_password }}"
+    priv: "{{ wp_db_name }}.*:ALL,GRANT"
+    state: present
+    host:  "{{ item }}"
+  with_items:
+    - 'localhost'
+    - '127.0.0.1'
+    - "{{ wp_host_ip }}"
+- name: 'configura o mysql para aceitar conexões remotas'  
+  copy:
+    src: '/vagrant/configs/my.cnf'
+    dest: '/etc/mysql/my.cnf'
+  become: yes
+  notify:
+    - restart mysql
+    
