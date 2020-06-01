@@ -23,7 +23,7 @@
     - "{{ wp_host_ip }}"
 - name: 'configura o mysql para aceitar conexões remotas'  
   copy:
-    src: '/vagrant/configs/my.cnf'
+    src: 'my.cnf'
     dest: '/etc/mysql/my.cnf'
   become: yes
   notify:
